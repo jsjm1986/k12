@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>K12 AI 助手</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-override.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 添加装饰性气泡 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <div class="container">
+        <!-- AI助手基本设置板 -->
+        <div class="settings-panel">
+            <h2>🎨 AI助手设置</h2>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label for="aiName">🏷️ AI名称:</label>
+                    <input type="text" id="aiName" value="小智">
+                </div>
+                <div class="setting-item">
+                    <label for="aiPersonality">🎭 AI性格:</label>
+                    <textarea id="aiPersonality">我是一个友善的学手，专注于帮助学生解决学习问题。</textarea>
+                </div>
+                <div class="setting-item">
+                    <label for="aiSubjects">📚 擅长科目:</label>
+                    <input type="text" id="aiSubjects" value="数学,语文,英语,科学">
+                </div>
+                <button id="saveSettings">保存设置 ✨</button>
+            </div>
+        </div>
+
+        <!-- 遮罩层 -->
+        <div class="overlay"></div>
+
+        <!-- 家长设置面板 -->
+        <div class="parent-settings-panel">
+            <div class="panel-header">
+                <h2>👨‍👩‍👧‍👦 家长控制面板</h2>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="parent-auth">
+                    <div class="auth-tips">
+                        <div class="tip-item">
+                            <span class="tip-icon">👋</span>
+                            <span class="tip-text">欢迎使用家长控制面板</span>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">🔑</span>
+                            <span class="tip-text">默认密码：cy.waryts.com</span>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">📋</span>
+                            <span class="tip-text">点击右侧复制按钮可快速复制密码</span>
+                        </div>
+                    </div>
+                    <div class="password-input-group">
+                        <input type="password" id="parentPassword" placeholder="请输入家长密码">
+                        <button id="copyPassword" class="copy-btn" title="点击复制默认密码">
+                            <span class="copy-icon">📋</span>
+                            <span class="copy-tooltip">复制密码</span>
+                        </button>
+                    </div>
+                    <div class="password-helper">
+                        <span class="helper-icon">💡</span>
+                        <span class="helper-text">输入密码后点击登录按钮进入控制面板</span>
+                    </div>
+                    <button id="parentLogin" class="login-btn">
+                        <span class="btn-icon">🔐</span>
+                        <span class="btn-text">登录</span>
+                    </button>
+                </div>
+                <div class="parent-settings-content" style="display: none;">
+                    <!-- 标签页导航 -->
+                    <div class="tabs">
+                        <div class="tabs-wrapper">
+                            <button class="tab-btn active" data-tab="profileTab">
+                                <span class="tab-icon">👤</span>
+                                <span class="tab-text">学生档案</span>
+                            </button>
+                            <button class="tab-btn" data-tab="timeTab">
+                                <span class="tab-icon">⏰</span>
+                                <span class="tab-text">时间管理</span>
+                            </button>
+                            <button class="tab-btn" data-tab="studyTab">
+                                <span class="tab-icon">📚</span>
+                                <span class="tab-text">学习监管</span>
+                            </button>
+                            <button class="tab-btn" data-tab="securityTab">
+                                <span class="tab-icon">🔒</span>
+                                <span class="tab-text">安全控制</span>
+                            </button>
+                            <button class="tab-btn" data-tab="reportTab">
+                                <span class="tab-icon">📊</span>
+                                <span class="tab-text">学习报告</span>
+                            </button>
+                            <button class="tab-btn" data-tab="mentalHealthTab">
+                                <span class="tab-icon">🧠</span>
+                                <span class="tab-text">心理健康</span>
+                            </button>
+                            <button class="tab-btn" data-tab="keywordTab">
+                                <span class="tab-icon">🔍</span>
+                                <span class="tab-text">关键词分析</span>
+                            </button>
+                            <button class="tab-btn" data-tab="libraryTab">
+                                <span class="tab-icon">📖</span>
+                                <span class="tab-text">知识库管理</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 标签页内容区域 -->
+                    <div class="tab-container">
+                        <!-- 学生档案标签页 -->
+                        <div class="tab-content active" id="profileTab">
+                            <div class="settings-grid">
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>👤 基本信息</h3>
+                                        <div class="setting-group">
+                                            <div class="setting-row">
+                                                <label>学生姓名</label>
+                                                <input type="text" id="studentName" class="styled-input" placeholder="请输入学生姓名">
+                                            </div>
+                                            <div class="setting-row">
+                                                <label>年龄段</label>
+                                                <select id="studentAge" class="styled-select">
+                                                    <option value="6-8">6-8岁 (小学低年级)</option>
+                                                    <option value="9-11">9-11岁 (小学中年级)</option>
+                                                    <option value="12-14">12-14岁 (小学高年级/初中)</option>
+                                                </select>
+                                            </div>
+                                            <div class="setting-row">
+                                                <label>年级</label>
+                                                <select id="grade" class="styled-select">
+                                                    <option value="1">一年级</option>
+                                                    <option value="2">二年级</option>
+                                                    <option value="3">三年级</option>
+                                                    <option value="4">四年级</option>
+                                                    <option value="5">五年级</option>
+                                                    <option value="6">六年级</option>
+                                                    <option value="7">初一</option>
+                                                    <option value="8">初二</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📚 学习特点</h3>
+                                        <div class="setting-group">
+                                            <div class="setting-row">
+                                                <label>学习风格</label>
+                                                <select id="learningStyle" class="styled-select">
+                                                    <option value="visual">视觉型 (图像、图表)</option>
+                                                    <option value="auditory">听觉型 (语音、对话)</option>
+                                                    <option value="interactive">互动型 (实践、游戏)</option>
+                                                    <option value="reading">阅读型 (文字、阅读)</option>
+                                                    <option value="mixed">混合型 (多种方式)</option>
+                                                </select>
+                                            </div>
+                                            <div class="setting-row">
+                                                <label>难度偏好</label>
+                                                <select id="difficultyLevel" class="styled-select">
+                                                    <option value="easy">循序渐进 (稳步提升)</option>
+                                                    <option value="medium">适度挑战 (平衡难度)</option>
+                                                    <option value="hard">挑战导向 (较高难度)</option>
+                                                    <option value="adaptive">自适应 (动态调整)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📝 重点科目</h3>
+                                        <div class="setting-group">
+                                            <h3>重点科目设置</h3>
+                                            <div class="checkbox-group subject-options">
+                                                <label><input type="checkbox" name="subject" value="数学"> 数学</label>
+                                                <label><input type="checkbox" name="subject" value="语文"> 语文</label>
+                                                <label><input type="checkbox" name="subject" value="英语"> 英语</label>
+                                                <label><input type="checkbox" name="subject" value="物理"> 物理</label>
+                                                <label><input type="checkbox" name="subject" value="化学"> 化学</label>
+                                                <label><input type="checkbox" name="subject" value="生物"> 生物</label>
+                                                <label><input type="checkbox" name="subject" value="历史"> 历史</label>
+                                                <label><input type="checkbox" name="subject" value="��理"> 地理</label>
+                                                <label><input type="checkbox" name="subject" value="政治"> 政治</label>
+                                                <label><input type="checkbox" name="subject" value="信息技术"> 信息技术</label>
+                                                <label><input type="checkbox" name="subject" value="体育"> 体育</label>
+                                                <label><input type="checkbox" name="subject" value="音乐"> 音乐</label>
+                                                <label><input type="checkbox" name="subject" value="美术"> 美术</label>
+                                                <label><input type="checkbox" name="subject" value="科学"> 科学</label>
+                                                <label><input type="checkbox" name="subject" value="道德与法治"> 道德与法治</label>
+                                                <label><input type="checkbox" name="subject" value="综合实践"> 综合实践</label>
+                                            </div>
+                                            <div class="subject-level-select">
+                                                <select class="styled-select" id="subjectLevel">
+                                                    <option value="小学">小学</option>
+                                                    <option value="初中">初中</option>
+                                                    <option value="高中">高中</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 时间管理标签页 -->
+                        <div class="tab-content" id="timeTab">
+                            <div class="settings-grid">
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>⏰ 每日限制</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="limitTime" checked>
+                                                <span class="switch-text">启用时间限制</span>
+                                            </label>
+                                            <div class="setting-row">
+                                                <label>每日时长</label>
+                                                <select id="dailyTimeLimit" class="styled-select">
+                                                    <option value="30">30分钟/天</option>
+                                                    <option value="60" selected>1小时/天</option>
+                                                    <option value="90">1.5小时/天</option>
+                                                    <option value="120">2小时/天</option>
+                                                </select>
+                                            </div>
+                                            <div class="setting-row">
+                                                <label>使用时段</label>
+                                                <div class="time-range">
+                                                    <input type="time" id="startTime" value="14:00" class="styled-input">
+                                                    <span>至</span>
+                                                    <input type="time" id="endTime" value="20:00" class="styled-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3><span class="tab-icon">⏰</span>休息提醒</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="breakReminder" checked>
+                                                <span class="switch-text">启用休息提醒</span>
+                                            </label>
+                                            <div class="setting-row">
+                                                <label>提醒间隔</label>
+                                                <select id="breakInterval" class="styled-select">
+                                                    <option value="20">每20分钟</option>
+                                                    <option value="30" selected>每30分钟</option>
+                                                    <option value="45">每45分钟</option>
+                                                </select>
+                                            </div>
+                                            <div class="setting-row">
+                                                <label>休息时长</label>
+                                                <select id="breakDuration" class="styled-select">
+                                                    <option value="5" selected>5分钟</option>
+                                                    <option value="10">10分钟</option>
+                                                    <option value="15">15分钟</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📅 每周安排</h3>
+                                        <div class="weekly-schedule">
+                                            <div class="schedule-body">
+                                                <!-- 周一到周日的时间设置 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 学习监管签页 -->
+                        <div class="tab-content" id="studyTab">
+                            <div class="settings-grid">
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📈 学习目标</h3>
+                                        <div class="setting-group">
+                                            <div class="goal-settings">
+                                                <div class="goal-item">
+                                                    <label class="switch-label">
+                                                        <input type="checkbox" checked>
+                                                        <span class="switch-text">每日题目数量</span>
+                                                    </label>
+                                                    <input type="number" value="20" min="1" class="styled-input">
+                                                </div>
+                                                <div class="goal-item">
+                                                    <label class="switch-label">
+                                                        <input type="checkbox" checked>
+                                                        <span class="switch-text">每日学习时长</span>
+                                                    </label>
+                                                    <input type="number" value="60" min="1" class="styled-input">
+                                                    <span>分钟</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>👀 学习监控</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="learningMonitor" checked>
+                                                <span class="switch-text">启用学习监控</span>
+                                            </label>
+                                            <div class="monitor-settings">
+                                                <label class="monitor-item">
+                                                    <input type="checkbox" checked>
+                                                    <span class="item-icon">🎯</span>
+                                                    <span class="item-text">专注度监测</span>
+                                                </label>
+                                                <label class="monitor-item">
+                                                    <input type="checkbox" checked>
+                                                    <span class="item-icon">📊</span>
+                                                    <span class="item-text">进度跟踪</span>
+                                                </label>
+                                                <label class="monitor-item">
+                                                    <input type="checkbox" checked>
+                                                    <span class="item-icon">❌</span>
+                                                    <span class="item-text">错题分析</span>
+                                                </label>
+                                                <label class="monitor-item">
+                                                    <input type="checkbox" checked>
+                                                    <span class="item-icon">📝</span>
+                                                    <span class="item-text">行为记录</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>🎯 学习进度</h3>
+                                        <div class="setting-group">
+                                            <div class="progress-chart">
+                                                <!-- 这里可以添加图表展示 -->
+                                                <div class="chart-placeholder">
+                                                    学习进度图表将在这里显示
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 安全控制标签页 -->
+                        <div class="tab-content" id="securityTab">
+                            <div class="settings-grid">
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>🔒 内容过滤</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="filterContent" checked>
+                                                <span class="switch-text">启用内容过滤</span>
+                                            </label>
+                                            <div class="checkbox-group sub-setting">
+                                                <label class="filter-item">
+                                                    <input type="checkbox" name="filters" value="language" checked>
+                                                    <span>不当语言</span>
+                                                </label>
+                                                <label class="filter-item">
+                                                    <input type="checkbox" name="filters" value="topics" checked>
+                                                    <span>敏感话题</span>
+                                                </label>
+                                                <label class="filter-item">
+                                                    <input type="checkbox" name="filters" value="personal" checked>
+                                                    <span>个人信息</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-card">
+                                        <h3>🛡️ 安全级别</h3>
+                                        <div class="setting-group">
+                                            <select id="securityLevel" class="styled-select">
+                                                <option value="low">低 (仅基本过滤)</option>
+                                                <option value="medium" selected>中 (智能过滤)</option>
+                                                <option value="high">高 (严格过滤)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>🚫 禁止内容</h3>
+                                        <div class="setting-group">
+                                            <div class="tag-input">
+                                                <input type="text" id="bannedWords" class="styled-input" placeholder="输入禁用词，按回车添加">
+                                                <div class="tags-container">
+                                                    <!-- 禁用词标签将在这里动态添加 -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-card">
+                                        <h3>🔑 密码设置</h3>
+                                        <div class="setting-group">
+                                            <input type="password" id="newParentPassword" class="styled-input" placeholder="输入新密码">
+                                            <input type="password" id="confirmParentPassword" class="styled-input" placeholder="确认新密码">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>🆘 紧急联系</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="emergencyContact" checked>
+                                                <span class="switch-text">启用紧急联系人</span>
+                                            </label>
+                                            <input type="tel" id="emergencyPhone" class="styled-input sub-setting" placeholder="紧急联系人电话">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 学习报告标签页 -->
+                        <div class="tab-content" id="reportTab">
+                            <div class="settings-grid">
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📊 报告设置</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="reportProgress" checked>
+                                                <span class="switch-text">开启学习报告</span>
+                                            </label>
+                                            <select id="reportFrequency" class="styled-select sub-setting">
+                                                <option value="daily">每日报告</option>
+                                                <option value="weekly" selected>每周报告</option>
+                                                <option value="monthly">每月报告</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-card">
+                                        <h3>📧 接收设置</h3>
+                                        <div class="setting-group">
+                                            <label for="parentEmail">接收邮箱:</label>
+                                            <input type="email" id="parentEmail" class="styled-input" placeholder="用于接收学习报告">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📋 报告内容</h3>
+                                        <div class="setting-group">
+                                            <div class="checkbox-group">
+                                                <label class="report-item">
+                                                    <input type="checkbox" name="reportItems" value="time" checked>
+                                                    <span>学习时长</span>
+                                                </label>
+                                                <label class="report-item">
+                                                    <input type="checkbox" name="reportItems" value="subjects" checked>
+                                                    <span>科目分布</span>
+                                                </label>
+                                                <label class="report-item">
+                                                    <input type="checkbox" name="reportItems" value="progress" checked>
+                                                    <span>学习进度</span>
+                                                </label>
+                                                <label class="report-item">
+                                                    <input type="checkbox" name="reportItems" value="mistakes" checked>
+                                                    <span>错误分析</span>
+                                                </label>
+                                                <label class="report-item">
+                                                    <input type="checkbox" name="reportItems" value="suggestions" checked>
+                                                    <span>学习建议</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>🔔 通知设置</h3>
+                                        <div class="setting-group">
+                                            <label class="switch-label">
+                                                <input type="checkbox" id="instantNotification" checked>
+                                                <span class="switch-text">即时通知</span>
+                                            </label>
+                                            <div class="checkbox-group sub-setting">
+                                                <label class="notification-item">
+                                                    <input type="checkbox" name="notifications" value="overtime" checked>
+                                                    <span>超时提醒</span>
+                                                </label>
+                                                <label class="notification-item">
+                                                    <input type="checkbox" name="notifications" value="achievement" checked>
+                                                    <span>学习成就</span>
+                                                </label>
+                                                <label class="notification-item">
+                                                    <input type="checkbox" name="notifications" value="warning" checked>
+                                                    <span>异常行为</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 心理健康监控标签页 -->
+                        <div class="tab-content" id="mentalHealthTab">
+                            <div class="settings-grid">
+                                <!-- 情绪趋势卡片 -->
+                                <div class="settings-card">
+                                    <h3><span class="tab-icon">📊</span>情绪趋势分析</h3>
+                                    <div class="chart-container">
+                                        <canvas id="emotionTrendChart"></canvas>
+                                    </div>
+                                    <div class="trend-summary">
+                                        <div class="trend-item">
+                                            <span class="trend-label">平均情绪值</span>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" id="averageEmotionProgress"></div>
+                                            </div>
+                                            <span class="trend-value" id="averageEmotionValue">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 关键词分析区域 -->
+                                <div class="settings-card">
+                                    <h3><span class="tab-icon">🔍</span>关键词分析</h3>
+                                    <div class="chart-container">
+                                        <canvas id="keywordPieChart"></canvas>
+                                    </div>
+                                    <div class="keyword-list" id="topKeywords">
+                                        <!-- 动态填充关键词列表 -->
+                                    </div>
+                                </div>
+
+                                <!-- 学习压力分析卡片 -->
+                                <div class="settings-card">
+                                    <h3><span class="tab-icon">📚</span>学习压力分析</h3>
+                                    <div class="chart-container">
+                                        <canvas id="stressLevelChart"></canvas>
+                                    </div>
+                                    <div class="stress-indicators">
+                                        <div class="indicator-item">
+                                            <span class="indicator-label">当前压力指数</span>
+                                            <div class="circular-progress" id="stressLevelIndicator">
+                                                <div class="progress-circle"></div>
+                                                <span class="progress-value">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 社交互动分析卡片 -->
+                                <div class="settings-card">
+                                    <h3><span class="tab-icon">👥</span>社交互动分析</h3>
+                                    <div class="chart-container">
+                                        <canvas id="socialInteractionChart"></canvas>
+                                    </div>
+                                    <div class="interaction-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-label">互动频率</span>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" id="interactionProgress"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 预警信息卡片 -->
+                                <div class="settings-card warning-card">
+                                    <h3><span class="tab-icon">⚠️</span>预警信息</h3>
+                                    <div class="warning-list" id="warningList">
+                                        <!-- 动态填充预警信息 -->
+                                    </div>
+                                    <div class="alert-stats">
+                                        <div class="alert-item">
+                                            <span class="alert-type">情绪波动</span>
+                                            <div class="alert-indicator"></div>
+                                        </div>
+                                        <div class="alert-item">
+                                            <span class="alert-type">学习压力</span>
+                                            <div class="alert-indicator"></div>
+                                        </div>
+                                        <div class="alert-item">
+                                            <span class="alert-type">社交状态</span>
+                                            <div class="alert-indicator"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 建议反馈卡片 -->
+                                <div class="settings-card">
+                                    <h3><span class="tab-icon">💡</span>建议反馈</h3>
+                                    <div class="recommendation-list" id="recommendationList">
+                                        <!-- 动态填充建议内容 -->
+                                    </div>
+                                    <div class="feedback-actions">
+                                        <button class="action-btn" onclick="generateNewRecommendations()">
+                                            <span class="btn-icon">🔄</span>更新建议
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 知识库管理标签页 -->
+                        <div class="tab-content" id="libraryTab">
+                            <div class="settings-grid">
+                                <!-- 左侧：上传区域 -->
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3><span class="tab-icon">📤</span>上传资料</h3>
+                                        <div class="upload-area">
+                                            <div class="upload-dropzone" id="uploadDropzone">
+                                                <div class="upload-icon">📁</div>
+                                                <p>拖拽文件到此处或点击上传</p>
+                                                <input type="file" id="fileUpload" multiple accept=".pdf,.doc,.docx,.txt,.epub,.mobi">
+                                            </div>
+                                            <div class="upload-progress">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill"></div>
+                                                </div>
+                                                <span class="progress-text">0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="upload-options">
+                                            <select class="styled-select" id="materialType">
+                                                <option value="textbook">教材课本</option>
+                                                <option value="exercise">练习题集</option>
+                                                <option value="literature">文学作品</option>
+                                                <option value="reference">参考资料</option>
+                                                <option value="other">其他资料</option>
+                                            </select>
+                                            <select class="styled-select" id="gradeLevel">
+                                                <option value="primary1-3">小学1-3年级</option>
+                                                <option value="primary4-6">小学4-6年级</option>
+                                                <option value="junior1-3">初中1-3年级</option>
+                                                <option value="high1-3">高中1-3年级</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-card">
+                                        <h3>📊 存储统计</h3>
+                                        <div class="storage-stats">
+                                            <div class="storage-info">
+                                                <div class="storage-value">总容量: 10 GB</div>
+                                                <div class="storage-value">已用: 3.5 GB</div>
+                                                <div class="storage-value">剩余: 6.5 GB</div>
+                                            </div>
+                                        </div>
+                                        <div class="storage-legend">
+                                            <div class="legend-item">
+                                                <div class="legend-color used"></div>
+                                                <div class="legend-text">已使用空间</div>
+                                            </div>
+                                            <div class="legend-item">
+                                                <div class="legend-color free"></div>
+                                                <div class="legend-text">剩余空间</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 中间：资料管理 -->
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📖 资料管理</h3>
+                                        <div class="library-controls">
+                                            <div class="search-box">
+                                                <input type="text" class="styled-input" placeholder="搜索资料...">
+                                                <button class="search-btn">🔍</button>
+                                            </div>
+                                            <div class="filter-options">
+                                                <select class="styled-select" id="filterType">
+                                                    <option value="all">全部类型</option>
+                                                    <option value="textbook">教材课本</option>
+                                                    <option value="exercise">练习题集</option>
+                                                    <option value="literature">文学作品</option>
+                                                    <option value="reference">参考资料</option>
+                                                </select>
+                                                <select class="styled-select" id="filterGrade">
+                                                    <option value="all">全部年级</option>
+                                                    <option value="primary">小学</option>
+                                                    <option value="junior">初中</option>
+                                                    <option value="high">高中</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="materials-list">
+                                            <div class="material-item">
+                                                <div class="material-icon">📕</div>
+                                                <div class="material-info">
+                                                    <h4>五年级语文上册</h4>
+                                                    <p>教材课本 • 小学 • 2.5MB</p>
+                                                </div>
+                                                <div class="material-actions">
+                                                    <button class="action-btn">👁️</button>
+                                                    <button class="action-btn">📥</button>
+                                                    <button class="action-btn">❌</button>
+                                                </div>
+                                            </div>
+                                            <div class="material-item">
+                                                <div class="material-icon">📗</div>
+                                                <div class="material-info">
+                                                    <h4>初中数学练习题</h4>
+                                                    <p>练习题集 • 初中 • 5.8MB</p>
+                                                </div>
+                                                <div class="material-actions">
+                                                    <button class="action-btn">👁️</button>
+                                                    <button class="action-btn">📥</button>
+                                                    <button class="action-btn">❌</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 右侧：阅读进度和推荐 -->
+                                <div class="settings-column">
+                                    <div class="settings-card">
+                                        <h3>📖 阅读进度</h3>
+                                        <div class="reading-progress">
+                                            <div class="progress-item">
+                                                <div class="book-cover">📘</div>
+                                                <div class="book-info">
+                                                    <h4>西游记</h4>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill" style="width: 45%"></div>
+                                                    </div>
+                                                    <p>已读45% • 上次阅读: 昨天</p>
+                                                </div>
+                                            </div>
+                                            <div class="progress-item">
+                                                <div class="book-cover">📙</div>
+                                                <div class="book-info">
+                                                    <h4>数学思维训练</h4>
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill" style="width: 75%"></div>
+                                                    </div>
+                                                    <p>已读75% • 上次阅读: 今天</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="settings-card">
+                                        <h3>🎯 智能推荐</h3>
+                                        <div class="recommendations">
+                                            <div class="recommendation-item">
+                                                <div class="rec-icon">📚</div>
+                                                <div class="rec-info">
+                                                    <h4>基于最近阅读推荐</h4>
+                                                    <p>《数学思维进阶训练》</p>
+                                                    <p class="rec-reason">与当前学习进度配</p>
+                                                </div>
+                                            </div>
+                                            <div class="recommendation-item">
+                                                <div class="rec-icon">📖</div>
+                                                <div class="rec-info">
+                                                    <h4>基于兴趣推荐</h4>
+                                                    <p>《少年科学故事集》</p>
+                                                    <p class="rec-reason">适合培养科学兴趣</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 关键词分析标签页内容 -->
+                        <div class="tab-content" id="keywordTab">
+                            <div class="settings-grid">
+                                <div class="settings-column full-width">
+                                    <div class="settings-card">
+                                        <h3><span class="tab-icon">🔍</span>关键词分析</h3>
+                                        <div class="keyword-analysis">
+                                            <!-- 热门关键词展示 -->
+                                            <div class="hot-keywords">
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">数学</div>
+                                                    <div class="keyword-frequency">使用频率: 85%</div>
+                                                </div>
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">英语</div>
+                                                    <div class="keyword-frequency">使用频率: 78%</div>
+                                                </div>
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">物理</div>
+                                                    <div class="keyword-frequency">使用频率: 72%</div>
+                                                </div>
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">化学</div>
+                                                    <div class="keyword-frequency">使用频率: 65%</div>
+                                                </div>
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">生物</div>
+                                                    <div class="keyword-frequency">使用频率: 60%</div>
+                                                </div>
+                                                <div class="keyword-card">
+                                                    <div class="keyword-name">语文</div>
+                                                    <div class="keyword-frequency">使用频率: 75%</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 使用频率图表 -->
+                                            <div class="frequency-chart">
+                                                <h4>学科使用频率分布</h4>
+                                                <div class="chart-bars">
+                                                    <div class="chart-bar" style="--height: 85%" data-value="85%" data-label="数学"></div>
+                                                    <div class="chart-bar" style="--height: 78%" data-value="78%" data-label="英语"></div>
+                                                    <div class="chart-bar" style="--height: 72%" data-value="72%" data-label="物理"></div>
+                                                    <div class="chart-bar" style="--height: 65%" data-value="65%" data-label="化学"></div>
+                                                    <div class="chart-bar" style="--height: 60%" data-value="60%" data-label="生物"></div>
+                                                    <div class="chart-bar" style="--height: 75%" data-value="75%" data-label="语文"></div>
+                                                </div>
+                                                <div class="chart-labels">
+                                                    <span>数学</span>
+                                                    <span>英语</span>
+                                                    <span>物理</span>
+                                                    <span>化学</span>
+                                                    <span>生物</span>
+                                                    <span>语文</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- 趋势分析区域 -->
+                                            <div class="trend-analysis">
+                                                <h4>学习趋势分析</h4>
+                                                <div class="trend-line">
+                                                    <div class="trend-path"></div>
+                                                    <div class="trend-dots">
+                                                        <div class="trend-dot" style="bottom: 85%"><span class="dot-label">数学</span></div>
+                                                        <div class="trend-dot" style="bottom: 78%"><span class="dot-label">英语</span></div>
+                                                        <div class="trend-dot" style="bottom: 72%"><span class="dot-label">物理</span></div>
+                                                        <div class="trend-dot" style="bottom: 65%"><span class="dot-label">化学</span></div>
+                                                        <div class="trend-dot" style="bottom: 60%"><span class="dot-label">生物</span></div>
+                                                        <div class="trend-dot" style="bottom: 75%"><span class="dot-label">语文</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 背景装饰 -->
+                                            <div class="keyword-background"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-footer">
+                        <button id="parentLogout">退出登录 🚪</button>
+                        <button id="saveParentSettings">保存设置 🔒</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1>K12 AI 助手</h1>
+                <div class="header-buttons">
+                    <button id="toggleSettings">⚙️ 设置</button>
+                    <button id="toggleParentSettings">👨‍👩‍👧‍👦 家长控制</button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- 消息将在这里动态添加 -->
+            </div>
+            <div class="chat-input">
+                <div class="user-hints">
+                    <div class="hint-title">💡 你可以这样问我：</div>
+                    <div class="hint-list">
+                        <div class="hint-item" data-question="你能帮我复习一下学的分数运算吗？">📚 复习数学分数运算</div>
+                        <div class="hint-item" data-question="能用简单的方式解释一下光合作用？">🌱 了解光合作用原理</div>
+                        <div class="hint-item" data-question="帮我分析一下这首古诗的意境和写作手法？">📖 分析古诗的写作特点</div>
+                        <div class="hint-item" data-question="英语中的时态要怎么理解和运用？">🌍 掌握英语时态法</div>
+                    </div>
+                </div>
+                <textarea id="userInput" placeholder="请输入你的问题..."></textarea>
+                <div class="input-controls">
+                    <button id="voiceInputBtn" class="control-btn" title="语音输入">
+                        <span class="btn-icon">🎤</span>
+                    </button>
+                    <button id="voiceOutputBtn" class="control-btn" title="语音朗读">
+                        <span class="btn-icon">🔊</span>
+                    </button>
+                </div>
+                <div class="animal-hint">试试问我���题吧！</div>
+                <button id="sendMessage">发送 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加动物装饰背景 -->
+    <div class="animal-background">
+        <div class="floating-animal">🦄</div>
+        <div class="floating-animal">🦊</div>
+        <div class="floating-animal">🐶</div>
+        <div class="floating-animal">🦒</div>
+        <div class="floating-animal">🦩</div>
+    </div>
+
+    <!-- 添加语音状态指示器 -->
+    <div id="voiceStatus" class="voice-status">
+        <span class="status-icon">🎤</span>
+        <span class="status-text">正在聆听...</span>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

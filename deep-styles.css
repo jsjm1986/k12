@@ -1,0 +1,647 @@
+/* 标签页内容深层优化 */
+.tab-content {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.settings-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    color: #000000;
+}
+
+.settings-card h3 {
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.settings-card .setting-group {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.settings-card label {
+    color: #000000;
+    font-weight: 500;
+}
+
+.settings-card input[type="text"],
+.settings-card input[type="number"],
+.settings-card input[type="password"],
+.settings-card select,
+.settings-card textarea {
+    background: #ffffff;
+    border: 2px solid #757575;
+    color: #000000;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.settings-card .checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    padding: 10px;
+}
+
+.settings-card .checkbox-group label {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    color: #000000;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-card .checkbox-group label:hover {
+    background: #e8f5e9;
+    border-color: #4CAF50;
+}
+
+/* 表单元素深层优化 */
+.styled-input,
+.styled-select,
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    background: #ffffff;
+    border: 2px solid #757575;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #000000;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.styled-input:focus,
+.styled-select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+/* 开关按钮深层优化 */
+.switch-label input[type="checkbox"] {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.switch-label input[type="checkbox"]:checked {
+    background: #4CAF50;
+}
+
+.switch-label input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffffff;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s ease;
+}
+
+.switch-label input[type="checkbox"]:checked::before {
+    transform: translateX(20px);
+}
+
+/* 按钮深层优化 */
+.action-btn,
+.control-btn,
+.submit-btn {
+    background: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover,
+.control-btn:hover,
+.submit-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+/* 提示文本深层优化 */
+.hint-text {
+    font-size: 12px;
+    color: #666666;
+    margin-top: 4px;
+}
+
+.error-text {
+    font-size: 12px;
+    color: #b71c1c;
+    margin-top: 4px;
+}
+
+.success-text {
+    font-size: 12px;
+    color: #1b5e20;
+    margin-top: 4px;
+}
+
+/* 列表项深层优化 */
+.list-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.list-item:hover {
+    background: #e8f5e9;
+    border-color: #4CAF50;
+    transform: translateX(5px);
+}
+
+.list-item-title {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.list-item-subtitle {
+    font-size: 12px;
+    color: #666666;
+}
+
+/* 表格深层优化 */
+.table-container {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background: #f5f5f5;
+    color: #000000;
+    font-weight: 600;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.table td {
+    padding: 12px;
+    color: #000000;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.table tr:hover {
+    background: #f8f9fa;
+}
+
+/* 暗色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .tab-content {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .settings-card {
+        background: #2d2d2d;
+        border-color: #404040;
+        color: #ffffff;
+    }
+
+    .settings-card h3 {
+        color: #ffffff;
+    }
+
+    .settings-card .setting-group {
+        background: #363636;
+        border-color: #404040;
+    }
+
+    .settings-card label {
+        color: #ffffff;
+    }
+
+    .settings-card input[type="text"],
+    .settings-card input[type="number"],
+    .settings-card input[type="password"],
+    .settings-card select,
+    .settings-card textarea {
+        background: #363636;
+        border-color: #404040;
+        color: #ffffff;
+    }
+
+    .settings-card .checkbox-group label {
+        background: #363636;
+        border-color: #404040;
+        color: #ffffff;
+    }
+
+    .settings-card .checkbox-group label:hover {
+        background: #1b5e20;
+        border-color: #2e7d32;
+    }
+
+    .list-item {
+        background: #2d2d2d;
+        border-color: #404040;
+        color: #ffffff;
+    }
+
+    .list-item:hover {
+        background: #1b5e20;
+        border-color: #2e7d32;
+    }
+
+    .list-item-title {
+        color: #ffffff;
+    }
+
+    .list-item-subtitle {
+        color: #cccccc;
+    }
+
+    .table-container {
+        background: #2d2d2d;
+        border-color: #404040;
+    }
+
+    .table th {
+        background: #363636;
+        color: #ffffff;
+        border-color: #404040;
+    }
+
+    .table td {
+        color: #ffffff;
+        border-color: #404040;
+    }
+
+    .table tr:hover {
+        background: #363636;
+    }
+
+    .hint-text {
+        color: #cccccc;
+    }
+
+    .error-text {
+        color: #ef9a9a;
+    }
+
+    .success-text {
+        color: #a5d6a7;
+    }
+} 
+
+/* 学生档案标签页深层优化 */
+#profileTab .student-info {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#profileTab .info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#profileTab .info-label {
+    color: #000000;
+    font-weight: 500;
+    min-width: 100px;
+}
+
+#profileTab .info-value {
+    color: #000000;
+    flex: 1;
+}
+
+/* 时间管理标签页深层优化 */
+#timeTab .time-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#timeTab .time-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#timeTab .time-label {
+    color: #000000;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+/* 学习监管标签页深层优化 */
+#studyTab .monitor-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#studyTab .monitor-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#studyTab .monitor-label {
+    color: #000000;
+    font-weight: 500;
+}
+
+/* 安全控制标签页深层优化 */
+#securityTab .security-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#securityTab .security-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#securityTab .security-label {
+    color: #000000;
+    font-weight: 500;
+}
+
+/* 学习报告标签页深层优化 */
+#reportTab .report-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#reportTab .report-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#reportTab .report-label {
+    color: #000000;
+    font-weight: 500;
+}
+
+/* 心理健康标签页深层优化 */
+#mentalHealthTab .mental-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#mentalHealthTab .mental-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#mentalHealthTab .mental-label {
+    color: #000000;
+    font-weight: 500;
+}
+
+/* 知识库管理标签页深层优化 */
+#libraryTab .library-block {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+#libraryTab .library-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+#libraryTab .library-label {
+    color: #000000;
+    font-weight: 500;
+}
+
+/* 暗色模式下的标签页深层优化 */
+@media (prefers-color-scheme: dark) {
+    [id$="Tab"] .student-info,
+    [id$="Tab"] .time-block,
+    [id$="Tab"] .monitor-block,
+    [id$="Tab"] .security-block,
+    [id$="Tab"] .report-block,
+    [id$="Tab"] .mental-block,
+    [id$="Tab"] .library-block {
+        background: #2d2d2d;
+        border-color: #404040;
+    }
+
+    [id$="Tab"] .info-row,
+    [id$="Tab"] .time-row,
+    [id$="Tab"] .monitor-item,
+    [id$="Tab"] .security-item,
+    [id$="Tab"] .report-item,
+    [id$="Tab"] .mental-item,
+    [id$="Tab"] .library-item {
+        background: #363636;
+        border-color: #404040;
+    }
+
+    [id$="Tab"] .info-label,
+    [id$="Tab"] .time-label,
+    [id$="Tab"] .monitor-label,
+    [id$="Tab"] .security-label,
+    [id$="Tab"] .report-label,
+    [id$="Tab"] .mental-label,
+    [id$="Tab"] .library-label {
+        color: #ffffff;
+    }
+
+    [id$="Tab"] .info-value {
+        color: #ffffff;
+    }
+}
+
+/* 图表容器深层优化 */
+.chart-container {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+/* 进度条深层优化 */
+.progress-bar {
+    background: #e0e0e0;
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #4CAF50, #81C784);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* 标签深层优化 */
+.tag {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 警告信息深层优化 */
+.warning-message {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 成功信息深层优化 */
+.success-message {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 暗色模式下的额外优化 */
+@media (prefers-color-scheme: dark) {
+    .chart-container {
+        background: #2d2d2d;
+        border-color: #404040;
+    }
+
+    .progress-bar {
+        background: #404040;
+    }
+
+    .tag {
+        background: #1b5e20;
+        color: #a5d6a7;
+        border-color: #2e7d32;
+    }
+
+    .warning-message {
+        background: #4a1515;
+        color: #ff8a80;
+        border-color: #621b1b;
+    }
+
+    .success-message {
+        background: #1b5e20;
+        color: #a5d6a7;
+        border-color: #2e7d32;
+    }
+} 
