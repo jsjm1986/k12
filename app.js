@@ -466,7 +466,7 @@ function saveParentSettings() {
     // 更新监控状态
     updateMonitoringStatus();
     
-    // 显示保���������成功提示
+    // 显示保存成功提示
     alert('家长设置已保存！');
 
     // 关闭面板和遮罩层
@@ -537,7 +537,7 @@ saveParentSettingsButton.addEventListener('click', saveParentSettings);
 
 // Deepseek API配置
 const DEEPSEEK_API_ENDPOINT = 'https://api.deepseek.com/v1/chat/completions';
-const DEEPSEEK_API_KEY = 'sk-ca424591f4974e2cb3bf66e73b99886c';
+const DEEPSEEK_API_KEY = 'sk-2b089eb243dc469aa20ed9c340a0af4c';
 
 // 构建Prompt模板
 function buildPrompt(userMessage, settings) {
