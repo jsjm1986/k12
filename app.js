@@ -160,7 +160,7 @@ function speakText(text, messageElement) {
     utterance.onerror = (event) => {
         console.error('语音合成错误:', event);
         stopSpeaking();
-        alert('语音��读出错，请重试');
+        alert('语音阅读出错，请重试');
     };
 
     currentUtterance = utterance;
@@ -661,7 +661,7 @@ async function generateAIResponse(userMessage) {
 2. 根据学生的年级和学习特点调整语言难度
 3. 结合学生的重点科目进行知识关联
 4. 使用学生喜欢的学习方式来解释概念
-5. 在回答中融入适当��鼓励和引导
+5. 在回答中融入适当鼓励和引导
 请使用中文回复，并确保回答符合学生的认知水平。`
                     },
                     {
