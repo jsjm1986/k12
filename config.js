@@ -74,7 +74,7 @@ const CONFIG = {
             complexity: '较难',
             examples: '少而精',
             pace: '快',
-            promptTemplate: '请提供深入的解释，��重培养分析和解决问题的能力'
+            promptTemplate: '请提供深入的解释，着重培养分析和解决问题的能力'
         },
         adaptive: {
             complexity: '动态',
